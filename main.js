@@ -1,3 +1,9 @@
+let mouseDown = false;
+document.body.onmousedown = () => (mouseDown = true);
+document.body.onmouseup= () => (mouseDown = false);
+
+createGrid(16);
+
 const button = document.querySelector('#grid-size');
 button.addEventListener('click', (e) => {
     let size = prompt("Enter the new grid size between 1 and 100:");
@@ -8,21 +14,27 @@ button.addEventListener('click', (e) => {
     createGrid(size);
 })
 
-createGrid(16);
-
 function createGrid(size) {
-    const container = document.querySelector('.container');
-    container.innerHTML = '';
-    container.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+    const grid = document.querySelector('.grid');
+    grid.innerHTML = '';
+    grid.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
 
     for (let i = 0; i < size * size; i++) {
-        let cell = document.createElement('div');
-        cell.addEventListener('mouseenter', (e) => {
-            cell.style.backgroundColor = "orange";
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.addEventListener('mouseenter', (e) => { 
+            cell.style.border = '2px solid #2b6777';
+            changeColor(e);
         })
-        cell.addEventListener('mouseleave', (e) => {
-            cell.style.backgroundColor = "transparent";
-        })
-        container.appendChild(cell);
+        cell.addEventListener('mousedown', changeColor);
+        cell.addEventListener('mouseleave', (e) => { cell.style.border = 'none'; })
+        grid.appendChild(cell);
     }
+}
+
+function changeColor(e) {
+    console.log(e.type);
+    if (mouseDown || e.type === 'mousedown') {
+        e.target.style.backgroundColor = 'black';
+    } 
 }
