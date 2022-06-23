@@ -22,6 +22,7 @@ function createGrid(size) {
     for (let i = 0; i < size * size; i++) {
         const cell = document.createElement('div');
         cell.classList.add('cell');
+        cell.style.backgroundColor = 'white';
         cell.addEventListener('mouseenter', (e) => { 
             cell.style.border = '2px solid #2b6777';
             changeColor(e);
